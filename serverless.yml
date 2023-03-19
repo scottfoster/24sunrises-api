@@ -1,0 +1,27 @@
+service: app
+
+provider:
+    name: aws
+    region: us-east-1
+
+plugins:
+    - ./vendor/bref/bref
+
+functions:
+    timezones:
+        handler: timezones.php
+        description: ''
+        runtime: php-82
+        timeout: 60
+        events:
+            - schedule: rate(5 minutes)
+
+    hello:
+        handler: index.php
+        description: ''
+        runtime: php-82
+
+# Exclude files from deployment
+package:
+    patterns:
+        - '!tests/**'

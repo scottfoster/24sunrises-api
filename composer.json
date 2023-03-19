@@ -1,0 +1,9 @@
+{
+    "require": {
+        "bref/bref": "^2.0",
+        "aws/aws-sdk-php": "^3.261",
+        "raiym/instagram-php-scraper": "^0.9.14",
+        "phpfastcache/phpfastcache": "^8.1",
+        "fakerphp/faker": "^1.21"
+    }
+}
