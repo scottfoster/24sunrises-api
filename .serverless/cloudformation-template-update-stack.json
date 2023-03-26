@@ -77,10 +77,10 @@
         "LogGroupName": "/aws/lambda/app-dev-timezones"
       }
     },
-    "HelloLogGroup": {
+    "InstagramLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/app-dev-hello"
+        "LogGroupName": "/aws/lambda/app-dev-instagram"
       }
     },
     "IamRoleLambdaExecution": {
@@ -168,7 +168,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1679264170575-2023-03-19T22:16:10.575Z/app.zip"
+          "S3Key": "serverless/app/dev/1679683713938-2023-03-24T18:48:33.938Z/app.zip"
         },
         "Handler": "timezones.php",
         "Runtime": "provided.al2",
@@ -189,18 +189,18 @@
         "TimezonesLogGroup"
       ]
     },
-    "HelloLambdaFunction": {
+    "InstagramLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1679264170575-2023-03-19T22:16:10.575Z/app.zip"
+          "S3Key": "serverless/app/dev/1679683713938-2023-03-24T18:48:33.938Z/app.zip"
         },
-        "Handler": "index.php",
+        "Handler": "instagram.php",
         "Runtime": "provided.al2",
-        "FunctionName": "app-dev-hello",
+        "FunctionName": "app-dev-instagram",
         "MemorySize": 1024,
         "Timeout": 6,
         "Role": {
@@ -214,27 +214,27 @@
         ]
       },
       "DependsOn": [
-        "HelloLogGroup"
+        "InstagramLogGroup"
       ]
     },
-    "TimezonesLambdaVersion5wj8CM1UQdY4fOSp8fwU0XcdpzEpn7wROuNcfz6ZpE": {
+    "TimezonesLambdaVersion14Pz93HFekDLuqBFjwAtLZdYmmOW6tIn3e8OVg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "TimezonesLambdaFunction"
         },
-        "CodeSha256": "iKqKK3bz0g7ULi2cjir16jAzTjpP3v4tYE0I0NV2gB8="
+        "CodeSha256": "rdUfKy1zPnVcng/LvlNkoYjMhVLllNjmJnYsn9LsEPk="
       }
     },
-    "HelloLambdaVersion6H9wEuNPewpowzsPlr6EEfDWLfOCdHm0nfGR6LhTeg": {
+    "InstagramLambdaVersionvXUZVNrhBXsXkwjU50wlsZdbnEzdBfSh09IgSiMeuM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "HelloLambdaFunction"
+          "Ref": "InstagramLambdaFunction"
         },
-        "CodeSha256": "iKqKK3bz0g7ULi2cjir16jAzTjpP3v4tYE0I0NV2gB8="
+        "CodeSha256": "rdUfKy1zPnVcng/LvlNkoYjMhVLllNjmJnYsn9LsEPk="
       }
     },
     "TimezonesEventsRuleSchedule1": {
@@ -287,19 +287,19 @@
     "TimezonesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "TimezonesLambdaVersion5wj8CM1UQdY4fOSp8fwU0XcdpzEpn7wROuNcfz6ZpE"
+        "Ref": "TimezonesLambdaVersion14Pz93HFekDLuqBFjwAtLZdYmmOW6tIn3e8OVg"
       },
       "Export": {
         "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
       }
     },
-    "HelloLambdaFunctionQualifiedArn": {
+    "InstagramLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloLambdaVersion6H9wEuNPewpowzsPlr6EEfDWLfOCdHm0nfGR6LhTeg"
+        "Ref": "InstagramLambdaVersionvXUZVNrhBXsXkwjU50wlsZdbnEzdBfSh09IgSiMeuM"
       },
       "Export": {
-        "Name": "sls-app-dev-HelloLambdaFunctionQualifiedArn"
+        "Name": "sls-app-dev-InstagramLambdaFunctionQualifiedArn"
       }
     }
   }

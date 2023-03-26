@@ -9,7 +9,6 @@ require __DIR__ . '/vendor/autoload.php';
 
 return function ($event) {
 
-
 $faker = Faker\Factory::create();
 $faker->addProvider(new Faker\Provider\en_US\Address($faker));
 
@@ -135,19 +134,20 @@ $client = new Aws\S3\S3Client([
 	'region'  => 'us-east-1',
     'version' => 'latest',
     'credentials' => [
-	    'key'    => "AKIA2CS4X5BZYHTBZDUE",
-	    'secret' => "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",
+	    'key'    => "AKIA3PWTTOA6HJW42676",
+	    'secret' => "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",
     ],
 ]);
 
 $result = $client->putObject([
-    'Bucket' => 'imfoster.com',
-    'Key' => '24sunrises-data.json',
+    'Bucket' => '24sunrises-data',
+    'Key' => 'sunrises.json',
     'Body' => json_encode($data),
     'ContentType' => 'application/json'
 ]);
 
-    return 'timezones done';
+    echo 'timezones done - ' . $result['@metadata']['statusCode'];
+    return null;
 };
 
 
