@@ -2,20 +2,13 @@
   "require": {
     "bref/bref": "^2.0",
     "aws/aws-sdk-php": "^3.261",
-    "phpfastcache/phpfastcache": "^9.1",
-    "fakerphp/faker": "^1.21",
     "guzzlehttp/guzzle": "^7.5",
-    "scottfoster/instagram-php-scraper": "dev-master"
+    "samwilson/phpflickr": "^5.0",
+    "illuminate/database": "^10.5"
   },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/scottfoster/instagram-php-scraper.git"
-    }
-  ],
-  "config": {
-    "github-oauth": {
-      "github.com": "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"
-    }
+  "autoload": {
+    "classmap": [
+        "classes"
+    ]
   }
 }

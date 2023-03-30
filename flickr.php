@@ -1,78 +1,71 @@
 <?php
 
 require_once 'vendor/autoload.php';
+require 'bootstrap.php';
 
-$apiKey = 'f3863ebcf7b9d871044b59f04ce1035c';
-$apiSecret = 'b08cd3e1b34bba18';
-
-$accessToken = "72157720877637964-1067c9ded40cbdeb";
-$accessTokenSecret = "5aba20bd289175db";
-
-// Add your access token to the storage.
-$token = new \OAuth\OAuth1\Token\StdOAuth1Token();
-$token->setAccessToken($accessToken);
-$token->setAccessTokenSecret($accessTokenSecret);
-$storage = new \OAuth\Common\Storage\Memory();
-$storage->storeAccessToken('Flickr', $token);
-
-// Create PhpFlickr.
-$phpFlickr = new \Samwilson\PhpFlickr\PhpFlickr($apiKey, $apiSecret);
-
-// Give PhpFlickr the storage containing the access token.
-$phpFlickr->setOauthStorage($storage);
-
-$min = strtotime('-3 day');
-$photos = $phpFlickr->photos()->search([
-    'tags' => 'sunrise',
-    'min_taken_date' => $min,
-    'has_geo' => 1,
-    'per_page' => 500,
-]);
-
-$usernames = [];
-
-foreach($photos['photo'] as $photo)
+return function ($event)
 {
-    try
+    $apiKey = 'f3863ebcf7b9d871044b59f04ce1035c';
+    $apiSecret = 'b08cd3e1b34bba18';
+
+    $accessToken = "72157720877637964-1067c9ded40cbdeb";
+    $accessTokenSecret = "5aba20bd289175db";
+
+    $token = new \OAuth\OAuth1\Token\StdOAuth1Token();
+    $token->setAccessToken($accessToken);
+    $token->setAccessTokenSecret($accessTokenSecret);
+    $storage = new \OAuth\Common\Storage\Memory();
+    $storage->storeAccessToken('Flickr', $token);
+    $phpFlickr = new \Samwilson\PhpFlickr\PhpFlickr($apiKey, $apiSecret);
+    $phpFlickr->setOauthStorage($storage);
+
+    $min_date = strtotime('-4 day');
+    $photos = $phpFlickr->photos()->search([
+        'tags' => 'sunrise',
+        'min_taken_date' => $min_date,
+        'has_geo' => 1,
+        'per_page' => 500,
+    ]);
+
+    $usernames = [];
+
+    foreach($photos['photo'] as $photo)
     {
-        $photoData = $phpFlickr->photos()->getInfo($photo['id'], $photo['secret']);
-        $photoExif = $phpFlickr->photos()->getExif($photo['id'], $photo['secret']);
-
-        $url = $photoData['urls']['url'][0]['_content'];
-        $lat = $photoData['location']['latitude'];
-        $lng = $photoData['location']['longitude'];
-        $views = $photoData['views'];
-        $taken = $photoData['dates']['taken'];
-
-        if($photo['ispublic'] == 1 && $views > 10 && !in_array($photoData['owner']['path_alias'], $usernames))
+        try
         {
+            $photoData = $phpFlickr->photos()->getInfo($photo['id'], $photo['secret']);
+            $photoExif = $phpFlickr->photos()->getExif($photo['id'], $photo['secret']);
 
-            // one per username
-            $usernames[] = $photoData['owner']['path_alias'];
+            $url = 'https://live.staticflickr.com/'.$photoData['server'].'/'.$photoData['id'].'_'.$photoData['secret'].'_b.jpg';
+            $lat = $photoData['location']['latitude'];
+            $lng = $photoData['location']['longitude'];
+            $views = $photoData['views'];
+            $taken = $photoData['dates']['taken'];
 
-            echo $url . '|' . $views . '|' . $taken . '|' . $lat . '|' . $lng . PHP_EOL;
+            if(
+                $photo['ispublic'] == 1 &&
+                $views > 10 &&
+                !in_array($photoData['owner']['path_alias'], $usernames))
+            {
 
-            /*
-            $datetime = new DateTime();
-            $timezone = new DateTimeZone('Europe/Bucharest');
-            $datetime->setTimezone($timezone);
-            echo $datetime->format('F d, Y H:i');
+                // one per username
+                $usernames[] = $photoData['owner']['path_alias'];
 
-            $given->setTimezone(new DateTimeZone("UTC"));
-            echo $given->format("Y-m-d H:i:s e") . "\n"; // 2014-12-12 07:18:00 UTC
+                // convert to utc
+                $timezonedb = file_get_contents('https://vip.timezonedb.com/v2.1/get-time-zone?key=SQ90W55WY9V6&format=json&by=position&lat='.$lat.'&lng='.$lng);
+                $timezone = json_decode($timezonedb)->zoneName;
+                $datetime = new DateTime($taken, new DateTimeZone($timezone));
+                $offset = str_replace(['0',':'],'',$datetime->format('p'));
+                $datetime->setTimezone(new DateTimeZone('UTC'));
 
-            */
-            /*
-            echo '<pre>';
-            print_r($photoExif);
-            echo '</pre>';
-            */
+                echo $url . '|' . $offset . '|' . $datetime->format('Y-m-d H:i:sP') . '|' . $lat . '|' . $lng . PHP_EOL;
+
+            }
+
+        } catch (Exception $e) {
+            // echo 'Bad ' . $e->getMessage() . PHP_EOL;
         }
 
-    } catch (Exception $e) {
-        // echo 'Bad ' . $e->getMessage() . PHP_EOL;
     }
 
-}
-
-die;
+};

@@ -16,8 +16,8 @@ functions:
         events:
             - schedule: rate(5 minutes)
 
-    instagram:
-        handler: instagram.php
+    flickr:
+        handler: flickr.php
         description: ''
         runtime: php-82
 
