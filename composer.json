@@ -7,8 +7,9 @@
     "illuminate/database": "^10.5"
   },
   "autoload": {
-    "classmap": [
-        "classes"
-    ]
+    "psr-4": {
+         "Controllers\\": "app/controllers/",
+         "Models\\": "app/models/"
+    }
   }
 }
