@@ -180,7 +180,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1680230170030-2023-03-31T02:36:10.030Z/app.zip"
+                "S3Key": "serverless/app/dev/1680230263164-2023-03-31T02:37:43.164Z/app.zip"
               },
               "Handler": "timezones.php",
               "Runtime": "provided.al2",
@@ -208,7 +208,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1680230170030-2023-03-31T02:36:10.030Z/app.zip"
+                "S3Key": "serverless/app/dev/1680230263164-2023-03-31T02:37:43.164Z/app.zip"
               },
               "Handler": "flickr.php",
               "Runtime": "provided.al2",
@@ -229,24 +229,24 @@
               "FlickrLogGroup"
             ]
           },
-          "TimezonesLambdaVersiongyBSYyIvoeRELZC9YeBHibsbCwi95cImFXR87nAtI": {
+          "TimezonesLambdaVersiontLXcrWJ1bZcefpNf3YAXeeOtlmejWQjT8L5XKewZwx4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "TimezonesLambdaFunction"
               },
-              "CodeSha256": "f5TMdxIKS1OWG+PE6MF+zLj9/VbLcGt78UDPY7CcTCE="
+              "CodeSha256": "b74+Xam6ld/o7wNz9euW62IIlhVkWLuQZh+F5nVICCo="
             }
           },
-          "FlickrLambdaVersion7D1PdOURk7mW3abEZo629qpRcHAD9x0sVoA47GcIQmU": {
+          "FlickrLambdaVersionqyCVPu7riJcY0u1lKiOZTKiFMYSyt8T0zBYL6KgHY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "FlickrLambdaFunction"
               },
-              "CodeSha256": "f5TMdxIKS1OWG+PE6MF+zLj9/VbLcGt78UDPY7CcTCE="
+              "CodeSha256": "b74+Xam6ld/o7wNz9euW62IIlhVkWLuQZh+F5nVICCo="
             }
           },
           "TimezonesEventsRuleSchedule1": {
@@ -336,7 +336,7 @@
           "TimezonesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TimezonesLambdaVersiongyBSYyIvoeRELZC9YeBHibsbCwi95cImFXR87nAtI"
+              "Ref": "TimezonesLambdaVersiontLXcrWJ1bZcefpNf3YAXeeOtlmejWQjT8L5XKewZwx4"
             },
             "Export": {
               "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
@@ -345,7 +345,7 @@
           "FlickrLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "FlickrLambdaVersion7D1PdOURk7mW3abEZo629qpRcHAD9x0sVoA47GcIQmU"
+              "Ref": "FlickrLambdaVersionqyCVPu7riJcY0u1lKiOZTKiFMYSyt8T0zBYL6KgHY"
             },
             "Export": {
               "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"
@@ -459,7 +459,7 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "TimezonesLambdaVersiongyBSYyIvoeRELZC9YeBHibsbCwi95cImFXR87nAtI"
+        "versionLogicalId": "TimezonesLambdaVersiontLXcrWJ1bZcefpNf3YAXeeOtlmejWQjT8L5XKewZwx4"
       },
       "flickr": {
         "handler": "flickr.php",
@@ -478,7 +478,7 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "FlickrLambdaVersion7D1PdOURk7mW3abEZo629qpRcHAD9x0sVoA47GcIQmU"
+        "versionLogicalId": "FlickrLambdaVersionqyCVPu7riJcY0u1lKiOZTKiFMYSyt8T0zBYL6KgHY"
       }
     },
     "configValidationMode": "warn",
@@ -500,7 +500,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/app/dev/code-artifacts",
         "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip",
-        "artifactDirectoryName": "serverless/app/dev/1680230170030-2023-03-31T02:36:10.030Z"
+        "artifactDirectoryName": "serverless/app/dev/1680230263164-2023-03-31T02:37:43.164Z"
       }
     },
     "layers": {},
@@ -508,7 +508,7 @@
     "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/app/dev/1680230170030-2023-03-31T02:36:10.030Z",
+    "artifactDirectoryName": "serverless/app/dev/1680230263164-2023-03-31T02:37:43.164Z",
     "artifact": "app.zip"
   }
 }

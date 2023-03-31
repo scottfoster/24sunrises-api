@@ -30,7 +30,7 @@ return function ($event)
     $phpFlickr = new \Samwilson\PhpFlickr\PhpFlickr($apiKey, $apiSecret);
     $phpFlickr->setOauthStorage($storage);
 
-    $min_date = strtotime('-10 day');
+    $min_date = strtotime('-1 day');
     $photos = $phpFlickr->photos()->search([
         'tags' => 'sunrise',
         'min_taken_date' => $min_date,
