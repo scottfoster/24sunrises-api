@@ -4,7 +4,8 @@
     "aws/aws-sdk-php": "^3.261",
     "guzzlehttp/guzzle": "^7.5",
     "samwilson/phpflickr": "^5.0",
-    "illuminate/database": "^10.5"
+    "illuminate/database": "^10.5",
+    "nesbot/carbon": "^2.66"
   },
   "autoload": {
     "psr-4": {

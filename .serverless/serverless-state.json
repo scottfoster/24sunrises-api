@@ -89,10 +89,10 @@
               "LogGroupName": "/aws/lambda/app-dev-timezones"
             }
           },
-          "InstagramLogGroup": {
+          "FlickrLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/app-dev-instagram"
+              "LogGroupName": "/aws/lambda/app-dev-flickr"
             }
           },
           "IamRoleLambdaExecution": {
@@ -180,7 +180,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1679683713938-2023-03-24T18:48:33.938Z/app.zip"
+                "S3Key": "serverless/app/dev/1680228795675-2023-03-31T02:13:15.675Z/app.zip"
               },
               "Handler": "timezones.php",
               "Runtime": "provided.al2",
@@ -194,27 +194,27 @@
                 ]
               },
               "Layers": [
-                "arn:aws:lambda:us-east-1:534081306603:layer:php-82:27"
+                "arn:aws:lambda:us-east-1:534081306603:layer:php-82:31"
               ]
             },
             "DependsOn": [
               "TimezonesLogGroup"
             ]
           },
-          "InstagramLambdaFunction": {
+          "FlickrLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1679683713938-2023-03-24T18:48:33.938Z/app.zip"
+                "S3Key": "serverless/app/dev/1680228795675-2023-03-31T02:13:15.675Z/app.zip"
               },
-              "Handler": "instagram.php",
+              "Handler": "flickr.php",
               "Runtime": "provided.al2",
-              "FunctionName": "app-dev-instagram",
+              "FunctionName": "app-dev-flickr",
               "MemorySize": 1024,
-              "Timeout": 6,
+              "Timeout": 60,
               "Role": {
                 "Fn::GetAtt": [
                   "IamRoleLambdaExecution",
@@ -222,31 +222,31 @@
                 ]
               },
               "Layers": [
-                "arn:aws:lambda:us-east-1:534081306603:layer:php-82:27"
+                "arn:aws:lambda:us-east-1:534081306603:layer:php-82:31"
               ]
             },
             "DependsOn": [
-              "InstagramLogGroup"
+              "FlickrLogGroup"
             ]
           },
-          "TimezonesLambdaVersion14Pz93HFekDLuqBFjwAtLZdYmmOW6tIn3e8OVg": {
+          "TimezonesLambdaVersionAG0opxVyS4Yyl3nYAx5pgZMzRwo9Hbg9mzCOdLyE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "TimezonesLambdaFunction"
               },
-              "CodeSha256": "rdUfKy1zPnVcng/LvlNkoYjMhVLllNjmJnYsn9LsEPk="
+              "CodeSha256": "6sE7Macm/+MrS5lb02SSIEj1/TXNa3JN1/W/ky4yfTo="
             }
           },
-          "InstagramLambdaVersionvXUZVNrhBXsXkwjU50wlsZdbnEzdBfSh09IgSiMeuM": {
+          "FlickrLambdaVersionyBQvKEwIBp7QwABIGXDC5CZxg9vYbWFKufRh8Ipj0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
-                "Ref": "InstagramLambdaFunction"
+                "Ref": "FlickrLambdaFunction"
               },
-              "CodeSha256": "rdUfKy1zPnVcng/LvlNkoYjMhVLllNjmJnYsn9LsEPk="
+              "CodeSha256": "6sE7Macm/+MrS5lb02SSIEj1/TXNa3JN1/W/ky4yfTo="
             }
           },
           "TimezonesEventsRuleSchedule1": {
@@ -285,6 +285,43 @@
                 ]
               }
             }
+          },
+          "FlickrEventsRuleSchedule1": {
+            "Type": "AWS::Events::Rule",
+            "Properties": {
+              "ScheduleExpression": "rate(2 hours)",
+              "State": "ENABLED",
+              "Targets": [
+                {
+                  "Arn": {
+                    "Fn::GetAtt": [
+                      "FlickrLambdaFunction",
+                      "Arn"
+                    ]
+                  },
+                  "Id": "flickrSchedule"
+                }
+              ]
+            }
+          },
+          "FlickrLambdaPermissionEventsRuleSchedule1": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "FlickrLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "events.amazonaws.com",
+              "SourceArn": {
+                "Fn::GetAtt": [
+                  "FlickrEventsRuleSchedule1",
+                  "Arn"
+                ]
+              }
+            }
           }
         },
         "Outputs": {
@@ -299,19 +336,19 @@
           "TimezonesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TimezonesLambdaVersion14Pz93HFekDLuqBFjwAtLZdYmmOW6tIn3e8OVg"
+              "Ref": "TimezonesLambdaVersionAG0opxVyS4Yyl3nYAx5pgZMzRwo9Hbg9mzCOdLyE"
             },
             "Export": {
               "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
             }
           },
-          "InstagramLambdaFunctionQualifiedArn": {
+          "FlickrLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InstagramLambdaVersionvXUZVNrhBXsXkwjU50wlsZdbnEzdBfSh09IgSiMeuM"
+              "Ref": "FlickrLambdaVersionyBQvKEwIBp7QwABIGXDC5CZxg9vYbWFKufRh8Ipj0"
             },
             "Export": {
-              "Name": "sls-app-dev-InstagramLambdaFunctionQualifiedArn"
+              "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"
             }
           }
         }
@@ -422,22 +459,26 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "TimezonesLambdaVersion14Pz93HFekDLuqBFjwAtLZdYmmOW6tIn3e8OVg"
+        "versionLogicalId": "TimezonesLambdaVersionAG0opxVyS4Yyl3nYAx5pgZMzRwo9Hbg9mzCOdLyE"
       },
-      "instagram": {
-        "handler": "instagram.php",
+      "flickr": {
+        "handler": "flickr.php",
         "description": "",
         "runtime": "provided.al2",
-        "events": [],
-        "name": "app-dev-instagram",
+        "timeout": 60,
+        "events": [
+          {
+            "schedule": "rate(2 hours)"
+          }
+        ],
+        "name": "app-dev-flickr",
         "layers": {
-          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"InstagramLambdaFunction\"][\"Properties\"][\"Layers\"]"
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"FlickrLambdaFunction\"][\"Properties\"][\"Layers\"]"
         },
         "package": {},
         "memory": 1024,
-        "timeout": 6,
         "vpc": {},
-        "versionLogicalId": "InstagramLambdaVersionvXUZVNrhBXsXkwjU50wlsZdbnEzdBfSh09IgSiMeuM"
+        "versionLogicalId": "FlickrLambdaVersionyBQvKEwIBp7QwABIGXDC5CZxg9vYbWFKufRh8Ipj0"
       }
     },
     "configValidationMode": "warn",
@@ -459,7 +500,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/app/dev/code-artifacts",
         "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip",
-        "artifactDirectoryName": "serverless/app/dev/1679683713938-2023-03-24T18:48:33.938Z"
+        "artifactDirectoryName": "serverless/app/dev/1680228795675-2023-03-31T02:13:15.675Z"
       }
     },
     "layers": {},
@@ -467,7 +508,7 @@
     "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/app/dev/1679683713938-2023-03-24T18:48:33.938Z",
+    "artifactDirectoryName": "serverless/app/dev/1680228795675-2023-03-31T02:13:15.675Z",
     "artifact": "app.zip"
   }
 }

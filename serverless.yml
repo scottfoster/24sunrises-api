@@ -20,6 +20,9 @@ functions:
         handler: flickr.php
         description: ''
         runtime: php-82
+        timeout: 60
+        events:
+            - schedule: rate(2 hours)
 
 # Exclude files from deployment
 package:

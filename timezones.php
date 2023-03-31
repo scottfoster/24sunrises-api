@@ -1,20 +1,25 @@
 <?php
 
+require __DIR__ . '/vendor/autoload.php';
+date_default_timezone_set('Etc/UTC');
+require 'models/database.php';
+require 'models/sunrises.php';
+
 use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
+use Carbon\Carbon;
+use Models\Database;
+use Models\Sunrises;
 
-date_default_timezone_set('Etc/UTC');
-
-require __DIR__ . '/vendor/autoload.php';
+new Database();
 
 return function ($event) {
-
-$faker = Faker\Factory::create();
-$faker->addProvider(new Faker\Provider\en_US\Address($faker));
 
 $now = time();
 $i = 0;
 $data = [];
+
+$base_image_path = 'https://24sunrises-data.s3.amazonaws.com/';
 
 $tz[] = ['name' => 'UTC-11', 'offset' => '-11', 'cities' => 'American Samoa', 'Jarvis Island', 'lat' => 0, 'lng' => '-178.9'];
 $tz[] = ['name' => 'UTC-10', 'offset' => '-10', 'cities' => 'Cook Islands, French Polynesia', 'lat' => 0, 'lng' => '-142.5'];
@@ -78,40 +83,27 @@ $tz = array_values($tz);
 
 foreach($tz as $k => $timezone)
 {
+
+    $sunrises = Sunrises::where('offset', $timezone['offset'])->orderBy('taken_at', 'desc')->take(10)->get()->toArray();
+
+    $sunrise_data = [];
+    foreach($sunrises as $k2 => $sunrise)
+    {
+
+        $time = Carbon::parse($sunrise['taken_at'])->diffForHumans(['short' => true]);
+        $sunrise_data[] = [
+            "key" => $k2,
+            "location" => $sunrise['location'],
+            "image" => $base_image_path . $sunrise['image_path'],
+            "time" => $time,
+            "username" => $sunrise['username'],
+        ];
+    }
+
     $data[$k] =
         [
             'title' => $timezone['cities'] . ' (' . $timezone['name'] . ')',
-            'data' => [
-                [
-                    "key" => "1",
-                    "location" => $faker->city() . ", " . $faker->stateAbbr(),
-                    "image" => "https://picsum.photos/seed/".rand(1,999999)."/2000/2000",
-                    "time" => date('c', $faker->dateTimeBetween('-1 week', '-5 minutes')->getTimestamp()),
-                    "author" => '@'.$faker->word(),
-                ],
-                [
-                    "key" => "2",
-                    "location" => $faker->city() . ", " . $faker->stateAbbr(),
-                    "image" => "https://picsum.photos/seed/".rand(1,999999)."/2000/2000",
-                    "time" => date('c', $faker->dateTimeBetween('-1 week', '-5 minutes')->getTimestamp()),
-                    "author" => '@'.$faker->word(),
-                ],
-                [
-                    "key" => "3",
-                    "location" => $faker->city() . ", " . $faker->stateAbbr(),
-                    "image" => "https://picsum.photos/seed/".rand(1,999999)."/2000/2000",
-                    "time" => date('c', $faker->dateTimeBetween('-1 week', '-5 minutes')->getTimestamp()),
-                    "author" => '@'.$faker->word(),
-                ],
-                [
-                    "key" => "4",
-                    "location" => $faker->city() . ", " . $faker->stateAbbr(),
-                    "image" => "https://picsum.photos/seed/".rand(1,999999)."/2000/2000",
-                    "time" => date('c', $faker->dateTimeBetween('-1 week', '-5 minutes')->getTimestamp()),
-                    "author" => '@'.$faker->word(),
-                ],
-
-            ],
+            'data' => $sunrise_data,
             'size' => 'normal'
         ];
 
@@ -130,24 +122,24 @@ foreach($tz as $k => $timezone)
 
 }
 
-$client = new Aws\S3\S3Client([
-	'region'  => 'us-east-1',
-    'version' => 'latest',
-    'credentials' => [
-	    'key'    => "AKIA3PWTTOA6HJW42676",
-	    'secret' => "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",
-    ],
-]);
+    $client = new Aws\S3\S3Client([
+        'region'  => 'us-east-1',
+        'version' => 'latest',
+        'credentials' => [
+            'key'    => "AKIA3PWTTOA6HJW42676",
+            'secret' => "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",
+        ],
+    ]);
 
-$result = $client->putObject([
-    'Bucket' => '24sunrises-data',
-    'Key' => 'sunrises.json',
-    'Body' => json_encode($data),
-    'ContentType' => 'application/json'
-]);
+    $result = $client->putObject([
+        'Bucket' => '24sunrises-data',
+        'Key' => 'sunrises-new.json',
+        'Body' => json_encode($data),
+        'ContentType' => 'application/json'
+    ]);
 
     echo 'timezones done - ' . $result['@metadata']['statusCode'];
-    return null;
+    return;
 };
 
 

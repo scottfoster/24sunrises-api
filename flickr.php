@@ -1,6 +1,8 @@
 <?php
 
-require_once 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
+
+
 require 'models/database.php';
 require 'models/sunrises.php';
 
@@ -51,6 +53,7 @@ return function ($event)
     {
         try
         {
+
             $photoData = $phpFlickr->photos()->getInfo($photo['id'], $photo['secret']);
             $photoExif = $phpFlickr->photos()->getExif($photo['id'], $photo['secret']);
 
@@ -63,7 +66,9 @@ return function ($event)
             if(
                 $photo['ispublic'] == 1 &&
                 $views > 1 &&
-                !in_array($photoData['owner']['path_alias'], $usernames))
+                !in_array($photoData['owner']['path_alias'], $usernames) &&
+                Sunrises::where('image_id', $photoData['id'])->doesntExist()
+            )
             {
                 // one per username
                 $usernames[] = $photoData['owner']['path_alias'];
