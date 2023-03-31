@@ -30,7 +30,7 @@ return function ($event)
     $phpFlickr = new \Samwilson\PhpFlickr\PhpFlickr($apiKey, $apiSecret);
     $phpFlickr->setOauthStorage($storage);
 
-    $min_date = strtotime('-1 day');
+    $min_date = strtotime('-6 hours');
     $photos = $phpFlickr->photos()->search([
         'tags' => 'sunrise',
         'min_taken_date' => $min_date,
@@ -54,24 +54,23 @@ return function ($event)
         try
         {
 
-            $photoData = $phpFlickr->photos()->getInfo($photo['id'], $photo['secret']);
-            $photoExif = $phpFlickr->photos()->getExif($photo['id'], $photo['secret']);
+            $photo_data = $phpFlickr->photos()->getInfo($photo['id'], $photo['secret']);
 
-            $url = 'https://live.staticflickr.com/'.$photoData['server'].'/'.$photoData['id'].'_'.$photoData['secret'].'_b.jpg';
-            $lat = $photoData['location']['latitude'];
-            $lng = $photoData['location']['longitude'];
-            $views = $photoData['views'];
-            $taken = $photoData['dates']['taken'];
+            $url = 'https://live.staticflickr.com/'.$photo_data['server'].'/'.$photo_data['id'].'_'.$photo_data['secret'].'_b.jpg';
+            $lat = $photo_data['location']['latitude'];
+            $lng = $photo_data['location']['longitude'];
+            $views = $photo_data['views'];
+            $taken = $photo_data['dates']['taken'];
 
             if(
                 $photo['ispublic'] == 1 &&
                 $views > 10 &&
-                // !in_array($photoData['owner']['path_alias'], $usernames) &&
-                Sunrises::where('image_id', $photoData['id'])->doesntExist()
+                // !in_array($photo_data['owner']['path_alias'], $usernames) &&
+                Sunrises::where('image_id', $photo_data['id'])->doesntExist()
             )
             {
                 // one per username
-                $usernames[] = $photoData['owner']['path_alias'];
+                $usernames[] = $photo_data['owner']['path_alias'];
 
                 // convert to utc
                 $timezonedb = file_get_contents('https://vip.timezonedb.com/v2.1/get-time-zone?key=SQ90W55WY9V6&format=json&by=position&lat='.$lat.'&lng='.$lng);
@@ -83,13 +82,14 @@ return function ($event)
 
                 echo $url . '|' . $offset . '|' . $datetime->format('Y-m-d H:i:sP') . '|' . $lat . '|' . $lng . PHP_EOL;
 
+                $user_image = 'http://farm'.$photo_data['owner']['iconfarm'].'.staticflickr.com/'.$photo_data['owner']['iconserver'].'/buddyicons/'.$photo_data['owner']['nsid'].'.jpg';
                 $location = $timezone->cityName . ', ' . $timezone->countryName;
                 if($timezone->countryCode == 'US')
                 {
                     $location = $timezone->cityName . ', ' . $timezone->regionName . ' ' . $timezone->countryCode;
                 }
 
-                $id = $photoData['id'];
+                $id = $photo_data['id'];
                 $imagepath = 'photos/'.$id.'.jpg';
                 file_put_contents('/tmp/' . $id, file_get_contents($url));
 
@@ -101,9 +101,10 @@ return function ($event)
                 ]);
 
                 $sunrise = new Sunrises();
-                $sunrise->image_id = $photoData['id'];
+                $sunrise->image_id = $photo_data['id'];
                 $sunrise->image_path = $imagepath;
-                $sunrise->username = $photoData['owner']['username'];
+                $sunrise->username = $photo_data['owner']['username'];
+                $sunrise->user_image = $user_image;
                 $sunrise->taken_at = $datetime->format('Y-m-d H:i:sP');
                 $sunrise->offset = $offset;
                 $sunrise->location = $location;

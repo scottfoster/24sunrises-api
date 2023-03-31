@@ -97,6 +97,8 @@ foreach($tz as $k => $timezone)
             "image" => $base_image_path . $sunrise['image_path'],
             "time" => $time,
             "username" => $sunrise['username'],
+            "user_image" => $sunrise['user_image'],
+
         ];
     }
 
