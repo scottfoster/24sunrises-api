@@ -168,7 +168,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1680228795675-2023-03-31T02:13:15.675Z/app.zip"
+          "S3Key": "serverless/app/dev/1680230170030-2023-03-31T02:36:10.030Z/app.zip"
         },
         "Handler": "timezones.php",
         "Runtime": "provided.al2",
@@ -196,7 +196,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1680228795675-2023-03-31T02:13:15.675Z/app.zip"
+          "S3Key": "serverless/app/dev/1680230170030-2023-03-31T02:36:10.030Z/app.zip"
         },
         "Handler": "flickr.php",
         "Runtime": "provided.al2",
@@ -217,24 +217,24 @@
         "FlickrLogGroup"
       ]
     },
-    "TimezonesLambdaVersionAG0opxVyS4Yyl3nYAx5pgZMzRwo9Hbg9mzCOdLyE": {
+    "TimezonesLambdaVersiongyBSYyIvoeRELZC9YeBHibsbCwi95cImFXR87nAtI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "TimezonesLambdaFunction"
         },
-        "CodeSha256": "6sE7Macm/+MrS5lb02SSIEj1/TXNa3JN1/W/ky4yfTo="
+        "CodeSha256": "f5TMdxIKS1OWG+PE6MF+zLj9/VbLcGt78UDPY7CcTCE="
       }
     },
-    "FlickrLambdaVersionyBQvKEwIBp7QwABIGXDC5CZxg9vYbWFKufRh8Ipj0": {
+    "FlickrLambdaVersion7D1PdOURk7mW3abEZo629qpRcHAD9x0sVoA47GcIQmU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "FlickrLambdaFunction"
         },
-        "CodeSha256": "6sE7Macm/+MrS5lb02SSIEj1/TXNa3JN1/W/ky4yfTo="
+        "CodeSha256": "f5TMdxIKS1OWG+PE6MF+zLj9/VbLcGt78UDPY7CcTCE="
       }
     },
     "TimezonesEventsRuleSchedule1": {
@@ -324,7 +324,7 @@
     "TimezonesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "TimezonesLambdaVersionAG0opxVyS4Yyl3nYAx5pgZMzRwo9Hbg9mzCOdLyE"
+        "Ref": "TimezonesLambdaVersiongyBSYyIvoeRELZC9YeBHibsbCwi95cImFXR87nAtI"
       },
       "Export": {
         "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
@@ -333,7 +333,7 @@
     "FlickrLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "FlickrLambdaVersionyBQvKEwIBp7QwABIGXDC5CZxg9vYbWFKufRh8Ipj0"
+        "Ref": "FlickrLambdaVersion7D1PdOURk7mW3abEZo629qpRcHAD9x0sVoA47GcIQmU"
       },
       "Export": {
         "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"

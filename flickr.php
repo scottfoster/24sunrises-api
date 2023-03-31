@@ -65,8 +65,8 @@ return function ($event)
 
             if(
                 $photo['ispublic'] == 1 &&
-                $views > 1 &&
-                !in_array($photoData['owner']['path_alias'], $usernames) &&
+                $views > 10 &&
+                // !in_array($photoData['owner']['path_alias'], $usernames) &&
                 Sunrises::where('image_id', $photoData['id'])->doesntExist()
             )
             {
