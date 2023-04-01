@@ -141,7 +141,7 @@ foreach($tz as $k => $timezone)
     ]);
 
     echo 'timezones done - ' . $result['@metadata']['statusCode'];
-    return;
+    return 'timezones done - ' . $result['@metadata']['statusCode'];
 };
 
 

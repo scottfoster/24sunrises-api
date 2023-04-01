@@ -2,7 +2,6 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-
 require 'models/database.php';
 require 'models/sunrises.php';
 
@@ -16,6 +15,9 @@ new Database();
 
 return function ($event)
 {
+
+    echo 'flickr start';
+
     $apiKey = 'f3863ebcf7b9d871044b59f04ce1035c';
     $apiSecret = 'b08cd3e1b34bba18';
 
@@ -30,13 +32,21 @@ return function ($event)
     $phpFlickr = new \Samwilson\PhpFlickr\PhpFlickr($apiKey, $apiSecret);
     $phpFlickr->setOauthStorage($storage);
 
-    $min_date = strtotime('-6 hours');
+    $min_date = strtotime('-1 day');
+
+    echo 'connect to flickr' . PHP_EOL;
+
+    foreach(['sunrise', 'sunrises'] as $keyword)
+    {
+
     $photos = $phpFlickr->photos()->search([
-        'tags' => 'sunrise',
+        'tags' => $keyword,
         'min_taken_date' => $min_date,
         'has_geo' => 1,
         'per_page' => 500,
     ]);
+
+    echo 'count photos to parse - ' . count($photos['photo']) . ' for string ' . $keyword . PHP_EOL;
 
     $usernames = [];
 
@@ -64,7 +74,7 @@ return function ($event)
 
             if(
                 $photo['ispublic'] == 1 &&
-                $views > 10 &&
+                $views > 5 &&
                 // !in_array($photo_data['owner']['path_alias'], $usernames) &&
                 Sunrises::where('image_id', $photo_data['id'])->doesntExist()
             )
@@ -116,6 +126,8 @@ return function ($event)
         } catch (Exception $e) {
             echo 'ERROR!! ' . $e->getMessage() . PHP_EOL;
         }
+
+    }
 
     }
 
