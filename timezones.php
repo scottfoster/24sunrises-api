@@ -1,5 +1,13 @@
 <?php
 
+/*
+
+serverless invoke --aws-profile 24sunrises -f flickr
+serverless deploy --aws-profile 24sunrises
+serverless bref:local -f timezones
+
+*/
+
 require __DIR__ . '/vendor/autoload.php';
 date_default_timezone_set('Etc/UTC');
 require 'models/database.php';
@@ -94,11 +102,10 @@ foreach($tz as $k => $timezone)
         $sunrise_data[] = [
             "key" => $k2,
             "location" => $sunrise['location'],
-            "image" => $base_image_path . $sunrise['image_path'],
+            "image" => $sunrise['image_path'],
             "time" => $time,
             "username" => $sunrise['username'],
             "user_image" => $sunrise['user_image'],
-
         ];
     }
 

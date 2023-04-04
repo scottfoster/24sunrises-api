@@ -22,7 +22,7 @@ functions:
         runtime: php-82
         timeout: 300
         events:
-            - schedule: rate(2 hours)
+            - schedule: rate(30 minutes)
 
 # Exclude files from deployment
 package:

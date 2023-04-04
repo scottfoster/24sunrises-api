@@ -180,7 +180,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1680328201561-2023-04-01T05:50:01.561Z/app.zip"
+                "S3Key": "serverless/app/dev/1680579764785-2023-04-04T03:42:44.785Z/app.zip"
               },
               "Handler": "timezones.php",
               "Runtime": "provided.al2",
@@ -208,7 +208,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1680328201561-2023-04-01T05:50:01.561Z/app.zip"
+                "S3Key": "serverless/app/dev/1680579764785-2023-04-04T03:42:44.785Z/app.zip"
               },
               "Handler": "flickr.php",
               "Runtime": "provided.al2",
@@ -229,24 +229,24 @@
               "FlickrLogGroup"
             ]
           },
-          "TimezonesLambdaVersionxKd4FySSjNmJAK69H12DJ6Tzz7zTbb7XgyhpVI": {
+          "TimezonesLambdaVersionRthhvRmJfi7ALsFnV9hnkEPVS3P9Oz6r8Qfpk3mYZpI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "TimezonesLambdaFunction"
               },
-              "CodeSha256": "Dj3WZBhPE/ZEfrjV9yXb3SxoEZ3ZWBaAS+WMQPRfH7M="
+              "CodeSha256": "1ScOtODW1JWS5fpLwQYBKMgKxtV5x5FiqBlmXcDM96c="
             }
           },
-          "FlickrLambdaVersionSaC4yqp1VNsKqEPgII4kcNQiYfMh3DyUCdwI2sMaeQ": {
+          "FlickrLambdaVersionwbV68iGKar6MkFVqmXK1UKTuToAsLGDfsgHrgJ5c0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "FlickrLambdaFunction"
               },
-              "CodeSha256": "Dj3WZBhPE/ZEfrjV9yXb3SxoEZ3ZWBaAS+WMQPRfH7M="
+              "CodeSha256": "1ScOtODW1JWS5fpLwQYBKMgKxtV5x5FiqBlmXcDM96c="
             }
           },
           "TimezonesEventsRuleSchedule1": {
@@ -289,7 +289,7 @@
           "FlickrEventsRuleSchedule1": {
             "Type": "AWS::Events::Rule",
             "Properties": {
-              "ScheduleExpression": "rate(2 hours)",
+              "ScheduleExpression": "rate(30 minutes)",
               "State": "ENABLED",
               "Targets": [
                 {
@@ -336,7 +336,7 @@
           "TimezonesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TimezonesLambdaVersionxKd4FySSjNmJAK69H12DJ6Tzz7zTbb7XgyhpVI"
+              "Ref": "TimezonesLambdaVersionRthhvRmJfi7ALsFnV9hnkEPVS3P9Oz6r8Qfpk3mYZpI"
             },
             "Export": {
               "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
@@ -345,7 +345,7 @@
           "FlickrLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "FlickrLambdaVersionSaC4yqp1VNsKqEPgII4kcNQiYfMh3DyUCdwI2sMaeQ"
+              "Ref": "FlickrLambdaVersionwbV68iGKar6MkFVqmXK1UKTuToAsLGDfsgHrgJ5c0"
             },
             "Export": {
               "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"
@@ -459,7 +459,7 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "TimezonesLambdaVersionxKd4FySSjNmJAK69H12DJ6Tzz7zTbb7XgyhpVI"
+        "versionLogicalId": "TimezonesLambdaVersionRthhvRmJfi7ALsFnV9hnkEPVS3P9Oz6r8Qfpk3mYZpI"
       },
       "flickr": {
         "handler": "flickr.php",
@@ -468,7 +468,7 @@
         "timeout": 300,
         "events": [
           {
-            "schedule": "rate(2 hours)"
+            "schedule": "rate(30 minutes)"
           }
         ],
         "name": "app-dev-flickr",
@@ -478,7 +478,7 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "FlickrLambdaVersionSaC4yqp1VNsKqEPgII4kcNQiYfMh3DyUCdwI2sMaeQ"
+        "versionLogicalId": "FlickrLambdaVersionwbV68iGKar6MkFVqmXK1UKTuToAsLGDfsgHrgJ5c0"
       }
     },
     "configValidationMode": "warn",
@@ -500,7 +500,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/app/dev/code-artifacts",
         "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip",
-        "artifactDirectoryName": "serverless/app/dev/1680328201561-2023-04-01T05:50:01.561Z"
+        "artifactDirectoryName": "serverless/app/dev/1680579764785-2023-04-04T03:42:44.785Z"
       }
     },
     "layers": {},
@@ -508,7 +508,7 @@
     "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/app/dev/1680328201561-2023-04-01T05:50:01.561Z",
+    "artifactDirectoryName": "serverless/app/dev/1680579764785-2023-04-04T03:42:44.785Z",
     "artifact": "app.zip"
   }
 }
