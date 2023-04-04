@@ -106,6 +106,7 @@ foreach($tz as $k => $timezone)
             "time" => $time,
             "username" => $sunrise['username'],
             "user_image" => $sunrise['user_image'],
+            "points" => shorten($sunrise['points'])
         ];
     }
 
@@ -160,4 +161,16 @@ function orderarray($arrayToOrder, $keys) {
         }
     }
     return $ordered;
+}
+
+function shorten($number){
+    $suffix = ["", "k", "m", "b"];
+    $precision = 1;
+    for($i = 0; $i < count($suffix); $i++){
+        $divide = $number / pow(1000, $i);
+        if($divide < 1000){
+            return round($divide, $precision).$suffix[$i];
+            break;
+        }
+    }
 }
