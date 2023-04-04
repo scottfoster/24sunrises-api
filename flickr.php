@@ -18,8 +18,6 @@ return function ($event)
 
     $base_image_path = 'https://24sunrises-data.s3.amazonaws.com/';
 
-    echo 'flickr start';
-
     $apiKey = 'f3863ebcf7b9d871044b59f04ce1035c';
     $apiSecret = 'b08cd3e1b34bba18';
 
@@ -79,7 +77,8 @@ return function ($event)
             'lon' => $timezone['lng'],
             'privacy_filter' => 1,
             'safe_search' => 1,
-            'content_type' => 1
+            'content_type' => 1,
+            'min_taken_date' => strtotime('-6 hours'),
         ]);
 
         echo 'count photos to parse - ' . count($photos['photo']) . ' - ' . $timezone['name'] . PHP_EOL;
