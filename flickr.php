@@ -143,8 +143,18 @@ return function ($event)
                     $sunrise->longitude = $lng;
                     $sunrise->timezone = $timezone->zoneName;
                     $sunrise->points = $photo_data['views'];
+                    $sunrise->source = 'flickr';
                     $sunrise->save();
 
+                }
+                else
+                {
+                    $sunrise = Sunrises::where(['image_id' => $photo_data['id']]);
+                    if($sunrise->exists())
+                    {
+                        $sunrise->update(['points' => $photo_data['views']]);
+                        echo 'updated ' . $photo_data['id'] . ' with ' . $photo_data['views'] . PHP_EOL;
+                    }
                 }
 
             } catch (Exception $e) {
