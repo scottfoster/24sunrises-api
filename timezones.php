@@ -106,7 +106,8 @@ foreach($tz as $k => $timezone)
             "time" => $time,
             "username" => $sunrise['username'],
             "user_image" => $sunrise['user_image'],
-            "points" => shorten($sunrise['points'])
+            "points" => shorten($sunrise['points']),
+            "source" => $sunrise['source']
         ];
     }
 
