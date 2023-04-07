@@ -174,7 +174,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1680836964964-2023-04-07T03:09:24.964Z/app.zip"
+          "S3Key": "serverless/app/dev/1680863334656-2023-04-07T10:28:54.656Z/app.zip"
         },
         "Handler": "timezones.php",
         "Runtime": "provided.al2",
@@ -202,7 +202,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1680836964964-2023-04-07T03:09:24.964Z/app.zip"
+          "S3Key": "serverless/app/dev/1680863334656-2023-04-07T10:28:54.656Z/app.zip"
         },
         "Handler": "flickr.php",
         "Runtime": "provided.al2",
@@ -230,7 +230,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1680836964964-2023-04-07T03:09:24.964Z/app.zip"
+          "S3Key": "serverless/app/dev/1680863334656-2023-04-07T10:28:54.656Z/app.zip"
         },
         "Handler": "unsplash.php",
         "Runtime": "provided.al2",
@@ -251,34 +251,34 @@
         "UnsplashLogGroup"
       ]
     },
-    "TimezonesLambdaVersionhQrLtqY8DzET6FH8xgukBVgq8OBnwbpHbKVMmvUsZw": {
+    "TimezonesLambdaVersiony8U7nfjOeO4uPY3v6VNaSnHeWyv1Qx1mh6mPRjoAJfA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "TimezonesLambdaFunction"
         },
-        "CodeSha256": "B00qiADpof+z7+yIc4Bn9vgIZ4j7K53dnaYCU2TrTXo="
+        "CodeSha256": "5+2ANeoHP2SJXUokWIP3zQ/kPL/Hav+zhFij18+T2n4="
       }
     },
-    "FlickrLambdaVersionNjjTWVjpPVGkbjItBu97F95mG7gInutm5GIw1UYvo": {
+    "FlickrLambdaVersionMp9aNSJmLAIIoN731fpyhiGLHQYIlpCgBnC3Nao3Lw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "FlickrLambdaFunction"
         },
-        "CodeSha256": "B00qiADpof+z7+yIc4Bn9vgIZ4j7K53dnaYCU2TrTXo="
+        "CodeSha256": "5+2ANeoHP2SJXUokWIP3zQ/kPL/Hav+zhFij18+T2n4="
       }
     },
-    "UnsplashLambdaVersions7C2n0i7fg7TbvAN7wLQAwO4RUAus6TEM09WzdYpWk": {
+    "UnsplashLambdaVersion3N8ICawY4iHcK7ybrJJlDK8rPRkYlv8xWr5ws64ywcw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UnsplashLambdaFunction"
         },
-        "CodeSha256": "B00qiADpof+z7+yIc4Bn9vgIZ4j7K53dnaYCU2TrTXo="
+        "CodeSha256": "5+2ANeoHP2SJXUokWIP3zQ/kPL/Hav+zhFij18+T2n4="
       }
     },
     "TimezonesEventsRuleSchedule1": {
@@ -405,7 +405,7 @@
     "TimezonesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "TimezonesLambdaVersionhQrLtqY8DzET6FH8xgukBVgq8OBnwbpHbKVMmvUsZw"
+        "Ref": "TimezonesLambdaVersiony8U7nfjOeO4uPY3v6VNaSnHeWyv1Qx1mh6mPRjoAJfA"
       },
       "Export": {
         "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
@@ -414,7 +414,7 @@
     "FlickrLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "FlickrLambdaVersionNjjTWVjpPVGkbjItBu97F95mG7gInutm5GIw1UYvo"
+        "Ref": "FlickrLambdaVersionMp9aNSJmLAIIoN731fpyhiGLHQYIlpCgBnC3Nao3Lw"
       },
       "Export": {
         "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"
@@ -423,7 +423,7 @@
     "UnsplashLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UnsplashLambdaVersions7C2n0i7fg7TbvAN7wLQAwO4RUAus6TEM09WzdYpWk"
+        "Ref": "UnsplashLambdaVersion3N8ICawY4iHcK7ybrJJlDK8rPRkYlv8xWr5ws64ywcw"
       },
       "Export": {
         "Name": "sls-app-dev-UnsplashLambdaFunctionQualifiedArn"
