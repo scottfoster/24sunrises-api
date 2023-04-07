@@ -14,7 +14,7 @@ functions:
         runtime: php-82
         timeout: 300
         events:
-           - schedule: rate(5 minutes)
+            - schedule: rate(5 minutes)
 
     flickr:
         handler: flickr.php
@@ -22,7 +22,15 @@ functions:
         runtime: php-82
         timeout: 300
         events:
-           - schedule: rate(30 minutes)
+            - schedule: rate(30 minutes)
+
+    unsplash:
+        handler: unsplash.php
+        description: ''
+        runtime: php-82
+        timeout: 60
+        events:
+            - schedule: rate(1 hour)
 
 # Exclude files from deployment
 package:
