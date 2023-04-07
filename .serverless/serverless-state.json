@@ -95,6 +95,12 @@
               "LogGroupName": "/aws/lambda/app-dev-flickr"
             }
           },
+          "UnsplashLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/app-dev-unsplash"
+            }
+          },
           "IamRoleLambdaExecution": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -180,7 +186,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1680818814053-2023-04-06T22:06:54.053Z/app.zip"
+                "S3Key": "serverless/app/dev/1680836964964-2023-04-07T03:09:24.964Z/app.zip"
               },
               "Handler": "timezones.php",
               "Runtime": "provided.al2",
@@ -208,7 +214,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1680818814053-2023-04-06T22:06:54.053Z/app.zip"
+                "S3Key": "serverless/app/dev/1680836964964-2023-04-07T03:09:24.964Z/app.zip"
               },
               "Handler": "flickr.php",
               "Runtime": "provided.al2",
@@ -229,24 +235,62 @@
               "FlickrLogGroup"
             ]
           },
-          "TimezonesLambdaVersionfcyUnNH5bMpbsYaVtRYnb1vr0w3mcNFNV34VKfnoT8A": {
+          "UnsplashLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/app/dev/1680836964964-2023-04-07T03:09:24.964Z/app.zip"
+              },
+              "Handler": "unsplash.php",
+              "Runtime": "provided.al2",
+              "FunctionName": "app-dev-unsplash",
+              "MemorySize": 1024,
+              "Timeout": 60,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Layers": [
+                "arn:aws:lambda:us-east-1:534081306603:layer:php-82:31"
+              ]
+            },
+            "DependsOn": [
+              "UnsplashLogGroup"
+            ]
+          },
+          "TimezonesLambdaVersionhQrLtqY8DzET6FH8xgukBVgq8OBnwbpHbKVMmvUsZw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "TimezonesLambdaFunction"
               },
-              "CodeSha256": "aTgvKkuglv9gzqo19dkbD9vScojEbqcBLplnz1IOrSo="
+              "CodeSha256": "B00qiADpof+z7+yIc4Bn9vgIZ4j7K53dnaYCU2TrTXo="
             }
           },
-          "FlickrLambdaVersion53wvSLSgmVEugTDyUgoA860Pug2WymM8joXXtPUElAA": {
+          "FlickrLambdaVersionNjjTWVjpPVGkbjItBu97F95mG7gInutm5GIw1UYvo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "FlickrLambdaFunction"
               },
-              "CodeSha256": "aTgvKkuglv9gzqo19dkbD9vScojEbqcBLplnz1IOrSo="
+              "CodeSha256": "B00qiADpof+z7+yIc4Bn9vgIZ4j7K53dnaYCU2TrTXo="
+            }
+          },
+          "UnsplashLambdaVersions7C2n0i7fg7TbvAN7wLQAwO4RUAus6TEM09WzdYpWk": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "UnsplashLambdaFunction"
+              },
+              "CodeSha256": "B00qiADpof+z7+yIc4Bn9vgIZ4j7K53dnaYCU2TrTXo="
             }
           },
           "TimezonesEventsRuleSchedule1": {
@@ -322,6 +366,43 @@
                 ]
               }
             }
+          },
+          "UnsplashEventsRuleSchedule1": {
+            "Type": "AWS::Events::Rule",
+            "Properties": {
+              "ScheduleExpression": "rate(1 hour)",
+              "State": "ENABLED",
+              "Targets": [
+                {
+                  "Arn": {
+                    "Fn::GetAtt": [
+                      "UnsplashLambdaFunction",
+                      "Arn"
+                    ]
+                  },
+                  "Id": "unsplashSchedule"
+                }
+              ]
+            }
+          },
+          "UnsplashLambdaPermissionEventsRuleSchedule1": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "UnsplashLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "events.amazonaws.com",
+              "SourceArn": {
+                "Fn::GetAtt": [
+                  "UnsplashEventsRuleSchedule1",
+                  "Arn"
+                ]
+              }
+            }
           }
         },
         "Outputs": {
@@ -336,7 +417,7 @@
           "TimezonesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TimezonesLambdaVersionfcyUnNH5bMpbsYaVtRYnb1vr0w3mcNFNV34VKfnoT8A"
+              "Ref": "TimezonesLambdaVersionhQrLtqY8DzET6FH8xgukBVgq8OBnwbpHbKVMmvUsZw"
             },
             "Export": {
               "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
@@ -345,10 +426,19 @@
           "FlickrLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "FlickrLambdaVersion53wvSLSgmVEugTDyUgoA860Pug2WymM8joXXtPUElAA"
+              "Ref": "FlickrLambdaVersionNjjTWVjpPVGkbjItBu97F95mG7gInutm5GIw1UYvo"
             },
             "Export": {
               "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"
+            }
+          },
+          "UnsplashLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "UnsplashLambdaVersions7C2n0i7fg7TbvAN7wLQAwO4RUAus6TEM09WzdYpWk"
+            },
+            "Export": {
+              "Name": "sls-app-dev-UnsplashLambdaFunctionQualifiedArn"
             }
           }
         }
@@ -459,7 +549,7 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "TimezonesLambdaVersionfcyUnNH5bMpbsYaVtRYnb1vr0w3mcNFNV34VKfnoT8A"
+        "versionLogicalId": "TimezonesLambdaVersionhQrLtqY8DzET6FH8xgukBVgq8OBnwbpHbKVMmvUsZw"
       },
       "flickr": {
         "handler": "flickr.php",
@@ -478,7 +568,26 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "FlickrLambdaVersion53wvSLSgmVEugTDyUgoA860Pug2WymM8joXXtPUElAA"
+        "versionLogicalId": "FlickrLambdaVersionNjjTWVjpPVGkbjItBu97F95mG7gInutm5GIw1UYvo"
+      },
+      "unsplash": {
+        "handler": "unsplash.php",
+        "description": "",
+        "runtime": "provided.al2",
+        "timeout": 60,
+        "events": [
+          {
+            "schedule": "rate(1 hour)"
+          }
+        ],
+        "name": "app-dev-unsplash",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"UnsplashLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "package": {},
+        "memory": 1024,
+        "vpc": {},
+        "versionLogicalId": "UnsplashLambdaVersions7C2n0i7fg7TbvAN7wLQAwO4RUAus6TEM09WzdYpWk"
       }
     },
     "configValidationMode": "warn",
@@ -500,7 +609,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/app/dev/code-artifacts",
         "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip",
-        "artifactDirectoryName": "serverless/app/dev/1680818814053-2023-04-06T22:06:54.053Z"
+        "artifactDirectoryName": "serverless/app/dev/1680836964964-2023-04-07T03:09:24.964Z"
       }
     },
     "layers": {},
@@ -508,7 +617,7 @@
     "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/app/dev/1680818814053-2023-04-06T22:06:54.053Z",
+    "artifactDirectoryName": "serverless/app/dev/1680836964964-2023-04-07T03:09:24.964Z",
     "artifact": "app.zip"
   }
 }
