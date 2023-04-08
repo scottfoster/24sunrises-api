@@ -82,8 +82,11 @@ return function ($event)
                     Sunrises::where('image_id', $photo_data['id'])->doesntExist()
                 )
                 {
+
+                    $photo_owner = $phpFlickr->people()->getInfo($photo_data['owner']['nsid']);
+
                     // one per username
-                    $usernames[] = $photo_data['owner']['path_alias'];
+                    $usernames[] = $photo_data['owner']['nsid'];
                     // convert to utc
                     $timezonedb = file_get_contents('https://vip.timezonedb.com/v2.1/get-time-zone?key=SQ90W55WY9V6&format=json&by=position&lat='.$lat.'&lng='.$lng);
                     $timezone = json_decode($timezonedb);
@@ -136,7 +139,7 @@ return function ($event)
                     $sunrise->image_path = $base_image_path . $imagepath;
                     $sunrise->username = $photo_data['owner']['username'];
                     $sunrise->user_image = $base_image_path . $userimagepath;
-                    $sunrise->user_profile_url = 'https://www.flickr.com/photos/' . $photo_data['owner']['path_alias'];
+                    $sunrise->user_profile_url = $photo_owner['person']['profileurl'];
                     $sunrise->taken_at = $datetime->format('Y-m-d H:i:sP');
                     $sunrise->offset = $offset;
                     $sunrise->location = $location;
