@@ -136,6 +136,7 @@ return function ($event)
                     $sunrise->image_path = $base_image_path . $imagepath;
                     $sunrise->username = $photo_data['owner']['username'];
                     $sunrise->user_image = $base_image_path . $userimagepath;
+                    $sunrise->user_profile_url = 'https://www.flickr.com/photos/' . $photo_data['owner']['path_alias'];
                     $sunrise->taken_at = $datetime->format('Y-m-d H:i:sP');
                     $sunrise->offset = $offset;
                     $sunrise->location = $location;

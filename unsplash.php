@@ -68,6 +68,7 @@ return function ($event)
                 $sunrise->image_path = $photo_data->urls->regular;
                 $sunrise->username = $photo_data->user->username;
                 $sunrise->user_image = $photo_data->user->profile_image->small;
+                $sunrise->user_profile_url = $photo_data->user->links->html;
                 $sunrise->taken_at = $datetime->format('Y-m-d H:i:sP');
                 $sunrise->offset = $offset;
                 $sunrise->location = $location;
