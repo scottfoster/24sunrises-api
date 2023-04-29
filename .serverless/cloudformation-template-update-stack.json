@@ -180,7 +180,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z/app.zip"
+          "S3Key": "serverless/app/dev/1682768314487-2023-04-29T11:38:34.487Z/app.zip"
         },
         "Handler": "timezones.php",
         "Runtime": "provided.al2",
@@ -208,7 +208,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z/app.zip"
+          "S3Key": "serverless/app/dev/1682768314487-2023-04-29T11:38:34.487Z/app.zip"
         },
         "Handler": "flickr.php",
         "Runtime": "provided.al2",
@@ -236,7 +236,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z/app.zip"
+          "S3Key": "serverless/app/dev/1682768314487-2023-04-29T11:38:34.487Z/app.zip"
         },
         "Handler": "unsplash.php",
         "Runtime": "provided.al2",
@@ -264,7 +264,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z/app.zip"
+          "S3Key": "serverless/app/dev/1682768314487-2023-04-29T11:38:34.487Z/app.zip"
         },
         "Handler": "getutc.php",
         "Runtime": "provided.al2",
@@ -285,44 +285,44 @@
         "GetutcLogGroup"
       ]
     },
-    "TimezonesLambdaVersion8wYcauJL8r5Vnd2QJr4BmV86pd0dFq0UY08buwwkDo": {
+    "TimezonesLambdaVersionOGQt2thixv7L3okxcJqKcmNuwrgtQXe4KsiHzLb6pQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "TimezonesLambdaFunction"
         },
-        "CodeSha256": "urcAhEGkxSdmnSJYtUAvAEOrNuTdRSnu9fbXoUH61Bo="
+        "CodeSha256": "UZXk9WQrFv5b4ExTnAgLTAswFqXSFvKPCEWIHP3GnO4="
       }
     },
-    "FlickrLambdaVersionFcpadAjOV1tGBy4DTOMKU7r8YcQtOAyzxeYpaWaEA": {
+    "FlickrLambdaVersionqhDX42iz5gdDqyDM2ZA6gnrjrji9xR6135iBr0bTHM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "FlickrLambdaFunction"
         },
-        "CodeSha256": "urcAhEGkxSdmnSJYtUAvAEOrNuTdRSnu9fbXoUH61Bo="
+        "CodeSha256": "UZXk9WQrFv5b4ExTnAgLTAswFqXSFvKPCEWIHP3GnO4="
       }
     },
-    "UnsplashLambdaVersiong0XqzY1ZIUfTsNSdQHzqHhi9c6Hx9cRQUpsN8LmWuc": {
+    "UnsplashLambdaVersionavIUlfd5xgMlm0qripJyCtUVr1124AdOVQYZja9Nk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UnsplashLambdaFunction"
         },
-        "CodeSha256": "urcAhEGkxSdmnSJYtUAvAEOrNuTdRSnu9fbXoUH61Bo="
+        "CodeSha256": "UZXk9WQrFv5b4ExTnAgLTAswFqXSFvKPCEWIHP3GnO4="
       }
     },
-    "GetutcLambdaVersionU30LaLdx2K9pxnurElE3uzKDDmgIqjUVijrnKkFxg": {
+    "GetutcLambdaVersionoZqv9zktTEarKwc9dP61S2l9Ciln3aYNXzTfDt8YoM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetutcLambdaFunction"
         },
-        "CodeSha256": "urcAhEGkxSdmnSJYtUAvAEOrNuTdRSnu9fbXoUH61Bo="
+        "CodeSha256": "UZXk9WQrFv5b4ExTnAgLTAswFqXSFvKPCEWIHP3GnO4="
       }
     },
     "TimezonesEventsRuleSchedule1": {
@@ -436,6 +436,44 @@
         }
       }
     },
+    "GetutcEventsRuleSchedule1": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "ScheduleExpression": "rate(5 minutes)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Input": "{\"warmer\":true}",
+            "Arn": {
+              "Fn::GetAtt": [
+                "GetutcLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Id": "getutcSchedule"
+          }
+        ]
+      }
+    },
+    "GetutcLambdaPermissionEventsRuleSchedule1": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GetutcLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "GetutcEventsRuleSchedule1",
+            "Arn"
+          ]
+        }
+      }
+    },
     "HttpApi": {
       "Type": "AWS::ApiGatewayV2::Api",
       "Properties": {
@@ -544,7 +582,7 @@
     "TimezonesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "TimezonesLambdaVersion8wYcauJL8r5Vnd2QJr4BmV86pd0dFq0UY08buwwkDo"
+        "Ref": "TimezonesLambdaVersionOGQt2thixv7L3okxcJqKcmNuwrgtQXe4KsiHzLb6pQ"
       },
       "Export": {
         "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
@@ -553,7 +591,7 @@
     "FlickrLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "FlickrLambdaVersionFcpadAjOV1tGBy4DTOMKU7r8YcQtOAyzxeYpaWaEA"
+        "Ref": "FlickrLambdaVersionqhDX42iz5gdDqyDM2ZA6gnrjrji9xR6135iBr0bTHM"
       },
       "Export": {
         "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"
@@ -562,7 +600,7 @@
     "UnsplashLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UnsplashLambdaVersiong0XqzY1ZIUfTsNSdQHzqHhi9c6Hx9cRQUpsN8LmWuc"
+        "Ref": "UnsplashLambdaVersionavIUlfd5xgMlm0qripJyCtUVr1124AdOVQYZja9Nk"
       },
       "Export": {
         "Name": "sls-app-dev-UnsplashLambdaFunctionQualifiedArn"
@@ -571,7 +609,7 @@
     "GetutcLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetutcLambdaVersionU30LaLdx2K9pxnurElE3uzKDDmgIqjUVijrnKkFxg"
+        "Ref": "GetutcLambdaVersionoZqv9zktTEarKwc9dP61S2l9Ciln3aYNXzTfDt8YoM"
       },
       "Export": {
         "Name": "sls-app-dev-GetutcLambdaFunctionQualifiedArn"
