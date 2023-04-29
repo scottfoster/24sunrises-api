@@ -116,7 +116,8 @@ foreach($tz as $k => $timezone)
         [
             'title' => $timezone['cities'] . ' (' . $timezone['name'] . ')',
             'data' => $sunrise_data,
-            'size' => 'normal'
+            'size' => 'normal',
+            'offset' => $timezone['offset']
         ];
 
     if($k == 1)

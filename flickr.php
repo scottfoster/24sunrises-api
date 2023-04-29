@@ -51,7 +51,7 @@ return function ($event)
             'has_geo' => 1,
             'per_page' => 500,
             // 'lat' => -14.334831994,
-            // 'lon' => -170.718663792,
+            // 'lon' => -170.718663793,
             'privacy_filter' => 1,
             'safe_search' => 1,
             'content_type' => 1,

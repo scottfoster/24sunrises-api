@@ -101,6 +101,12 @@
               "LogGroupName": "/aws/lambda/app-dev-unsplash"
             }
           },
+          "GetutcLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/app-dev-getutc"
+            }
+          },
           "IamRoleLambdaExecution": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -186,7 +192,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1681060785423-2023-04-09T17:19:45.423Z/app.zip"
+                "S3Key": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z/app.zip"
               },
               "Handler": "timezones.php",
               "Runtime": "provided.al2",
@@ -214,7 +220,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1681060785423-2023-04-09T17:19:45.423Z/app.zip"
+                "S3Key": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z/app.zip"
               },
               "Handler": "flickr.php",
               "Runtime": "provided.al2",
@@ -242,7 +248,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/app/dev/1681060785423-2023-04-09T17:19:45.423Z/app.zip"
+                "S3Key": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z/app.zip"
               },
               "Handler": "unsplash.php",
               "Runtime": "provided.al2",
@@ -263,34 +269,72 @@
               "UnsplashLogGroup"
             ]
           },
-          "TimezonesLambdaVersion7Dfu4e3bTOebwbr0EDZEvU9D9ns3DiKiD2Z4Mve3qTg": {
+          "GetutcLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z/app.zip"
+              },
+              "Handler": "getutc.php",
+              "Runtime": "provided.al2",
+              "FunctionName": "app-dev-getutc",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Layers": [
+                "arn:aws:lambda:us-east-1:534081306603:layer:php-82:31"
+              ]
+            },
+            "DependsOn": [
+              "GetutcLogGroup"
+            ]
+          },
+          "TimezonesLambdaVersion8wYcauJL8r5Vnd2QJr4BmV86pd0dFq0UY08buwwkDo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "TimezonesLambdaFunction"
               },
-              "CodeSha256": "b0sd91Z2zAW5v7JC7OaEN8UlGH3SmCLxIm18RnBna5U="
+              "CodeSha256": "urcAhEGkxSdmnSJYtUAvAEOrNuTdRSnu9fbXoUH61Bo="
             }
           },
-          "FlickrLambdaVersionWDibtSOJyxa3vwoQFvDPpV2H28P0ZN237aMpP2u5OY": {
+          "FlickrLambdaVersionFcpadAjOV1tGBy4DTOMKU7r8YcQtOAyzxeYpaWaEA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "FlickrLambdaFunction"
               },
-              "CodeSha256": "b0sd91Z2zAW5v7JC7OaEN8UlGH3SmCLxIm18RnBna5U="
+              "CodeSha256": "urcAhEGkxSdmnSJYtUAvAEOrNuTdRSnu9fbXoUH61Bo="
             }
           },
-          "UnsplashLambdaVersionhnUleCe6y2e5WMvUmV9eklBGVQjyS7xoY3PpF5Rg7aw": {
+          "UnsplashLambdaVersiong0XqzY1ZIUfTsNSdQHzqHhi9c6Hx9cRQUpsN8LmWuc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UnsplashLambdaFunction"
               },
-              "CodeSha256": "b0sd91Z2zAW5v7JC7OaEN8UlGH3SmCLxIm18RnBna5U="
+              "CodeSha256": "urcAhEGkxSdmnSJYtUAvAEOrNuTdRSnu9fbXoUH61Bo="
+            }
+          },
+          "GetutcLambdaVersionU30LaLdx2K9pxnurElE3uzKDDmgIqjUVijrnKkFxg": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetutcLambdaFunction"
+              },
+              "CodeSha256": "urcAhEGkxSdmnSJYtUAvAEOrNuTdRSnu9fbXoUH61Bo="
             }
           },
           "TimezonesEventsRuleSchedule1": {
@@ -403,6 +447,98 @@
                 ]
               }
             }
+          },
+          "HttpApi": {
+            "Type": "AWS::ApiGatewayV2::Api",
+            "Properties": {
+              "Name": "dev-app",
+              "ProtocolType": "HTTP"
+            }
+          },
+          "HttpApiStage": {
+            "Type": "AWS::ApiGatewayV2::Stage",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "StageName": "$default",
+              "AutoDeploy": true,
+              "DefaultRouteSettings": {
+                "DetailedMetricsEnabled": false
+              }
+            }
+          },
+          "GetutcLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetutcLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationGetutc": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"GetutcLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRouteGetGetutc": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "GET /getutc",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationGetutc"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationGetutc"
           }
         },
         "Outputs": {
@@ -417,7 +553,7 @@
           "TimezonesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TimezonesLambdaVersion7Dfu4e3bTOebwbr0EDZEvU9D9ns3DiKiD2Z4Mve3qTg"
+              "Ref": "TimezonesLambdaVersion8wYcauJL8r5Vnd2QJr4BmV86pd0dFq0UY08buwwkDo"
             },
             "Export": {
               "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
@@ -426,7 +562,7 @@
           "FlickrLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "FlickrLambdaVersionWDibtSOJyxa3vwoQFvDPpV2H28P0ZN237aMpP2u5OY"
+              "Ref": "FlickrLambdaVersionFcpadAjOV1tGBy4DTOMKU7r8YcQtOAyzxeYpaWaEA"
             },
             "Export": {
               "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"
@@ -435,10 +571,53 @@
           "UnsplashLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UnsplashLambdaVersionhnUleCe6y2e5WMvUmV9eklBGVQjyS7xoY3PpF5Rg7aw"
+              "Ref": "UnsplashLambdaVersiong0XqzY1ZIUfTsNSdQHzqHhi9c6Hx9cRQUpsN8LmWuc"
             },
             "Export": {
               "Name": "sls-app-dev-UnsplashLambdaFunctionQualifiedArn"
+            }
+          },
+          "GetutcLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetutcLambdaVersionU30LaLdx2K9pxnurElE3uzKDDmgIqjUVijrnKkFxg"
+            },
+            "Export": {
+              "Name": "sls-app-dev-GetutcLambdaFunctionQualifiedArn"
+            }
+          },
+          "HttpApiId": {
+            "Description": "Id of the HTTP API",
+            "Value": {
+              "Ref": "HttpApi"
+            },
+            "Export": {
+              "Name": "sls-app-dev-HttpApiId"
+            }
+          },
+          "HttpApiUrl": {
+            "Description": "URL of the HTTP API",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "HttpApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  }
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-app-dev-HttpApiUrl"
             }
           }
         }
@@ -534,7 +713,6 @@
     "functions": {
       "timezones": {
         "handler": "timezones.php",
-        "description": "",
         "runtime": "provided.al2",
         "timeout": 300,
         "events": [
@@ -549,11 +727,10 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "TimezonesLambdaVersion7Dfu4e3bTOebwbr0EDZEvU9D9ns3DiKiD2Z4Mve3qTg"
+        "versionLogicalId": "TimezonesLambdaVersion8wYcauJL8r5Vnd2QJr4BmV86pd0dFq0UY08buwwkDo"
       },
       "flickr": {
         "handler": "flickr.php",
-        "description": "",
         "runtime": "provided.al2",
         "timeout": 300,
         "events": [
@@ -568,11 +745,10 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "FlickrLambdaVersionWDibtSOJyxa3vwoQFvDPpV2H28P0ZN237aMpP2u5OY"
+        "versionLogicalId": "FlickrLambdaVersionFcpadAjOV1tGBy4DTOMKU7r8YcQtOAyzxeYpaWaEA"
       },
       "unsplash": {
         "handler": "unsplash.php",
-        "description": "",
         "runtime": "provided.al2",
         "timeout": 60,
         "events": [
@@ -587,7 +763,27 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "UnsplashLambdaVersionhnUleCe6y2e5WMvUmV9eklBGVQjyS7xoY3PpF5Rg7aw"
+        "versionLogicalId": "UnsplashLambdaVersiong0XqzY1ZIUfTsNSdQHzqHhi9c6Hx9cRQUpsN8LmWuc"
+      },
+      "getutc": {
+        "handler": "getutc.php",
+        "runtime": "provided.al2",
+        "events": [
+          {
+            "httpApi": "GET /getutc",
+            "resolvedMethod": "GET",
+            "resolvedPath": "/getutc"
+          }
+        ],
+        "name": "app-dev-getutc",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"GetutcLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "vpc": {},
+        "versionLogicalId": "GetutcLambdaVersionU30LaLdx2K9pxnurElE3uzKDDmgIqjUVijrnKkFxg"
       }
     },
     "configValidationMode": "warn",
@@ -609,7 +805,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/app/dev/code-artifacts",
         "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip",
-        "artifactDirectoryName": "serverless/app/dev/1681060785423-2023-04-09T17:19:45.423Z"
+        "artifactDirectoryName": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z"
       }
     },
     "layers": {},
@@ -617,7 +813,7 @@
     "artifact": "/Users/scott/24sunrises-api/.serverless/app.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/app/dev/1681060785423-2023-04-09T17:19:45.423Z",
+    "artifactDirectoryName": "serverless/app/dev/1681815031871-2023-04-18T10:50:31.871Z",
     "artifact": "app.zip"
   }
 }
