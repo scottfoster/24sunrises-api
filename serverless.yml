@@ -39,6 +39,12 @@ functions:
                 input:
                     warmer: true
 
+    uploadimage:
+        handler: uploadimage.php
+        runtime: php-82
+        events:
+            - httpApi: 'POST /uploadimage'
+
 # Exclude files from deployment
 package:
     patterns:
