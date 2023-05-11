@@ -3,6 +3,11 @@ service: app
 provider:
     name: aws
     region: us-east-1
+    apiGateway:
+        binaryMediaTypes:
+            - '*/*'
+    environment:
+        BREF_BINARY_RESPONSES: '1'
 
 plugins:
     - ./vendor/bref/bref
