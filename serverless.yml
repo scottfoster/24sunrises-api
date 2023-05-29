@@ -44,11 +44,11 @@ functions:
                 input:
                     warmer: true
 
-    uploadimage:
-        handler: uploadimage.php
+    submitimage:
+        handler: submitimage.php
         runtime: php-82
         events:
-            - httpApi: 'POST /uploadimage'
+            - httpApi: 'GET /submitimage'
 
 # Exclude files from deployment
 package:

@@ -95,10 +95,10 @@
         "LogGroupName": "/aws/lambda/app-dev-getutc"
       }
     },
-    "UploadimageLogGroup": {
+    "SubmitimageLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/app-dev-uploadimage"
+        "LogGroupName": "/aws/lambda/app-dev-submitimage"
       }
     },
     "IamRoleLambdaExecution": {
@@ -186,7 +186,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1682912275784-2023-05-01T03:37:55.784Z/app.zip"
+          "S3Key": "serverless/app/dev/1685333891462-2023-05-29T04:18:11.462Z/app.zip"
         },
         "Handler": "timezones.php",
         "Runtime": "provided.al2",
@@ -219,7 +219,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1682912275784-2023-05-01T03:37:55.784Z/app.zip"
+          "S3Key": "serverless/app/dev/1685333891462-2023-05-29T04:18:11.462Z/app.zip"
         },
         "Handler": "flickr.php",
         "Runtime": "provided.al2",
@@ -252,7 +252,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1682912275784-2023-05-01T03:37:55.784Z/app.zip"
+          "S3Key": "serverless/app/dev/1685333891462-2023-05-29T04:18:11.462Z/app.zip"
         },
         "Handler": "unsplash.php",
         "Runtime": "provided.al2",
@@ -285,7 +285,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1682912275784-2023-05-01T03:37:55.784Z/app.zip"
+          "S3Key": "serverless/app/dev/1685333891462-2023-05-29T04:18:11.462Z/app.zip"
         },
         "Handler": "getutc.php",
         "Runtime": "provided.al2",
@@ -311,18 +311,18 @@
         "GetutcLogGroup"
       ]
     },
-    "UploadimageLambdaFunction": {
+    "SubmitimageLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/app/dev/1682912275784-2023-05-01T03:37:55.784Z/app.zip"
+          "S3Key": "serverless/app/dev/1685333891462-2023-05-29T04:18:11.462Z/app.zip"
         },
-        "Handler": "uploadimage.php",
+        "Handler": "submitimage.php",
         "Runtime": "provided.al2",
-        "FunctionName": "app-dev-uploadimage",
+        "FunctionName": "app-dev-submitimage",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
@@ -341,57 +341,57 @@
         ]
       },
       "DependsOn": [
-        "UploadimageLogGroup"
+        "SubmitimageLogGroup"
       ]
     },
-    "TimezonesLambdaVersion6X7bZUroqfvDjbSyE0jYB6HS1r8BhPWNPPQCSjNXgGE": {
+    "TimezonesLambdaVersionyrF3Tc0ARLqbL8xhte4apq3wc5Zl9N1f3y4dY7hmrcM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "TimezonesLambdaFunction"
         },
-        "CodeSha256": "JLIld4jasgCFkBhcYwhFh2hKufP8qpBFUOULKHR6lXU="
+        "CodeSha256": "7yjqnfomJv/yOABHjo94/fRrBijwUyjvSMZxXvov2kU="
       }
     },
-    "FlickrLambdaVersionwpsCb9bZJQe6J8pe7CB9GmjuZSggnk42CbmjWM": {
+    "FlickrLambdaVersion98r8mIUwuH1gFkKjvF4dR8jjjiJ0Nx0btisYEiEubk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "FlickrLambdaFunction"
         },
-        "CodeSha256": "JLIld4jasgCFkBhcYwhFh2hKufP8qpBFUOULKHR6lXU="
+        "CodeSha256": "7yjqnfomJv/yOABHjo94/fRrBijwUyjvSMZxXvov2kU="
       }
     },
-    "UnsplashLambdaVersionS6fbz7KfXFaAH9gWLpQ35c1dXlfODlrBeMqzaw7po": {
+    "UnsplashLambdaVersionyJjpjYRuFdinyH0SeZHCWUN1338nBgCUgW3qvV99I": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UnsplashLambdaFunction"
         },
-        "CodeSha256": "JLIld4jasgCFkBhcYwhFh2hKufP8qpBFUOULKHR6lXU="
+        "CodeSha256": "7yjqnfomJv/yOABHjo94/fRrBijwUyjvSMZxXvov2kU="
       }
     },
-    "GetutcLambdaVersionSKDryqqWktB9SHBCMckrE5SO9qJI88q5rDXr2oZUcs": {
+    "GetutcLambdaVersionZwqHcGDsQ8wEta8CkzVWPz5cy0hu5FykdCZ6iC7XI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetutcLambdaFunction"
         },
-        "CodeSha256": "JLIld4jasgCFkBhcYwhFh2hKufP8qpBFUOULKHR6lXU="
+        "CodeSha256": "7yjqnfomJv/yOABHjo94/fRrBijwUyjvSMZxXvov2kU="
       }
     },
-    "UploadimageLambdaVersionwY4XyvG1YiFZhB1py5LWK07D67eRXOYMygEHtLa4": {
+    "SubmitimageLambdaVersionh0wbhmwFeWjPdpkNZPHv3RNfx8expE2i8GKUWNkD30": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "UploadimageLambdaFunction"
+          "Ref": "SubmitimageLambdaFunction"
         },
-        "CodeSha256": "JLIld4jasgCFkBhcYwhFh2hKufP8qpBFUOULKHR6lXU="
+        "CodeSha256": "7yjqnfomJv/yOABHjo94/fRrBijwUyjvSMZxXvov2kU="
       }
     },
     "TimezonesEventsRuleSchedule1": {
@@ -638,12 +638,12 @@
       },
       "DependsOn": "HttpApiIntegrationGetutc"
     },
-    "UploadimageLambdaPermissionHttpApi": {
+    "SubmitimageLambdaPermissionHttpApi": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "UploadimageLambdaFunction",
+            "SubmitimageLambdaFunction",
             "Arn"
           ]
         },
@@ -675,7 +675,7 @@
         }
       }
     },
-    "HttpApiIntegrationUploadimage": {
+    "HttpApiIntegrationSubmitimage": {
       "Type": "AWS::ApiGatewayV2::Integration",
       "Properties": {
         "ApiId": {
@@ -684,7 +684,7 @@
         "IntegrationType": "AWS_PROXY",
         "IntegrationUri": {
           "Fn::GetAtt": [
-            "UploadimageLambdaFunction",
+            "SubmitimageLambdaFunction",
             "Arn"
           ]
         },
@@ -692,26 +692,26 @@
         "TimeoutInMillis": 30000
       }
     },
-    "HttpApiRoutePostUploadimage": {
+    "HttpApiRouteGetSubmitimage": {
       "Type": "AWS::ApiGatewayV2::Route",
       "Properties": {
         "ApiId": {
           "Ref": "HttpApi"
         },
-        "RouteKey": "POST /uploadimage",
+        "RouteKey": "GET /submitimage",
         "Target": {
           "Fn::Join": [
             "/",
             [
               "integrations",
               {
-                "Ref": "HttpApiIntegrationUploadimage"
+                "Ref": "HttpApiIntegrationSubmitimage"
               }
             ]
           ]
         }
       },
-      "DependsOn": "HttpApiIntegrationUploadimage"
+      "DependsOn": "HttpApiIntegrationSubmitimage"
     }
   },
   "Outputs": {
@@ -726,7 +726,7 @@
     "TimezonesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "TimezonesLambdaVersion6X7bZUroqfvDjbSyE0jYB6HS1r8BhPWNPPQCSjNXgGE"
+        "Ref": "TimezonesLambdaVersionyrF3Tc0ARLqbL8xhte4apq3wc5Zl9N1f3y4dY7hmrcM"
       },
       "Export": {
         "Name": "sls-app-dev-TimezonesLambdaFunctionQualifiedArn"
@@ -735,7 +735,7 @@
     "FlickrLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "FlickrLambdaVersionwpsCb9bZJQe6J8pe7CB9GmjuZSggnk42CbmjWM"
+        "Ref": "FlickrLambdaVersion98r8mIUwuH1gFkKjvF4dR8jjjiJ0Nx0btisYEiEubk"
       },
       "Export": {
         "Name": "sls-app-dev-FlickrLambdaFunctionQualifiedArn"
@@ -744,7 +744,7 @@
     "UnsplashLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UnsplashLambdaVersionS6fbz7KfXFaAH9gWLpQ35c1dXlfODlrBeMqzaw7po"
+        "Ref": "UnsplashLambdaVersionyJjpjYRuFdinyH0SeZHCWUN1338nBgCUgW3qvV99I"
       },
       "Export": {
         "Name": "sls-app-dev-UnsplashLambdaFunctionQualifiedArn"
@@ -753,19 +753,19 @@
     "GetutcLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetutcLambdaVersionSKDryqqWktB9SHBCMckrE5SO9qJI88q5rDXr2oZUcs"
+        "Ref": "GetutcLambdaVersionZwqHcGDsQ8wEta8CkzVWPz5cy0hu5FykdCZ6iC7XI"
       },
       "Export": {
         "Name": "sls-app-dev-GetutcLambdaFunctionQualifiedArn"
       }
     },
-    "UploadimageLambdaFunctionQualifiedArn": {
+    "SubmitimageLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UploadimageLambdaVersionwY4XyvG1YiFZhB1py5LWK07D67eRXOYMygEHtLa4"
+        "Ref": "SubmitimageLambdaVersionh0wbhmwFeWjPdpkNZPHv3RNfx8expE2i8GKUWNkD30"
       },
       "Export": {
-        "Name": "sls-app-dev-UploadimageLambdaFunctionQualifiedArn"
+        "Name": "sls-app-dev-SubmitimageLambdaFunctionQualifiedArn"
       }
     },
     "HttpApiId": {
